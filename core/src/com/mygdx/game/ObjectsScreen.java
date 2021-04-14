@@ -14,7 +14,7 @@ import java.util.Random;
 
 public class ObjectsScreen extends BaseScreen {
 
-    private Texture progress;
+
 
     ObjectsScreen(MyGdxGame game) {
         super(game);
@@ -31,6 +31,7 @@ public class ObjectsScreen extends BaseScreen {
     int score = 0;
     float moreSpeed =5;
     Texture background;
+    private Texture progress;
     BitmapFont bitmapFont;
     BitmapFont bitmapFont2;
     BitmapFont bitmapFont3;
