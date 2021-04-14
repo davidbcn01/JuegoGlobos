@@ -33,7 +33,10 @@ public class ObjectsScreen extends BaseScreen {
     Texture background;
     BitmapFont bitmapFont;
     BitmapFont bitmapFont2;
+    BitmapFont bitmapFont3;
     Color clickColor;
+    String clickTexto;
+    String accion;
     @Override
     public void show() {
 
@@ -47,8 +50,11 @@ public class ObjectsScreen extends BaseScreen {
         progress = new Texture("progress.png");
         bitmapFont = new BitmapFont();
         bitmapFont2 = new BitmapFont();
-        clickColor = new Color(getRandomColor());
+        bitmapFont3 = new BitmapFont();
+        clickColor = getRandomColor();
         tiempo = 80;
+        clickTexto = getRandomText();
+        accion = getRandomAction();
     }
 
     private void update(float delta) {
@@ -80,23 +86,47 @@ public class ObjectsScreen extends BaseScreen {
             for(Globo globo: globoList) {
 
                 //  System.out.println(Gdx.input.getX() + ":" + mouseY + "    " + globo.getX() + ":" + globo.getY());
-                if (distancia(Gdx.input.getX(), mouseY, globo.getX(), globo.getY()) < globo.size/2){
+                if (distancia(Gdx.input.getX(), mouseY, globo.getX(), globo.getY()) < globo.size/2) {
 
                     globo.borrar = true;
-                    if(clickColor == Color.RED && globo.getColor() == Globo.Color.ROJO){
-                        score++;
-                        tiempo++;
-                    }else if(clickColor == Color.GREEN && globo.getColor() == Globo.Color.VERDE){
-                        score++;
-                        tiempo++;
-                    }else if(clickColor == Color.BLUE && globo.getColor() == Globo.Color.AZUL){
-                        score++;
-                        tiempo++;
-                    }else{
-                        score--;
-                        tiempo-=3;
+                    if (accion.equals("C")) {
+
+                        if (clickColor == Color.RED && globo.getColor() == Globo.Color.ROJO) {
+                            score++;
+                            tiempo++;
+                        } else if (clickColor == Color.GREEN && globo.getColor() == Globo.Color.VERDE) {
+                            score++;
+                            tiempo++;
+                        } else if (clickColor == Color.BLUE && globo.getColor() == Globo.Color.AZUL) {
+                            score++;
+                            tiempo++;
+                        } else {
+                            score--;
+                            tiempo -= 3;
+                        }
+                        clickColor = getRandomColor();
+                        clickTexto = getRandomText();
+                        accion = getRandomAction();
+                        break;
+                    }else if(accion.equals("T")){
+                        if(clickTexto.equals("VERDE") && globo.getColor() == Globo.Color.VERDE){
+                            score++;
+                            tiempo++;
+                        }else if (clickTexto.equals("ROJO") && globo.getColor() == Globo.Color.ROJO) {
+                            score++;
+                            tiempo++;
+                        } else if (clickTexto.equals("AZUL") && globo.getColor() == Globo.Color.AZUL) {
+                            score++;
+                            tiempo++;
+                        } else {
+                            score--;
+                            tiempo -= 3;
+                        }
+                        clickColor = getRandomColor();
+                        clickTexto = getRandomText();
+                        accion = getRandomAction();
+                        break;
                     }
-                    clickColor = getRandomColor();
                 }
                 //break;
             }
@@ -121,13 +151,19 @@ public class ObjectsScreen extends BaseScreen {
 
         spriteBatch.draw(background, 0, 0, 640, 480);
         for(Globo globo: globoList) globo.render(spriteBatch);
+
         bitmapFont.setColor(new Color(Color.WHITE));
         bitmapFont.getData().setScale(3);
         bitmapFont.draw(spriteBatch, String.valueOf(score), 550f, 450f);
 
         bitmapFont2.setColor(new Color(clickColor));
         bitmapFont2.getData().setScale(3);
-        bitmapFont2.draw(spriteBatch, "VERDE", 50f, 450f);
+        bitmapFont2.draw(spriteBatch, clickTexto, 70f, 450f);
+
+        bitmapFont3.setColor(new Color(Color.WHITE));
+        bitmapFont3.getData().setScale(3);
+        bitmapFont3.draw(spriteBatch, accion, 10f, 450f);
+
         spriteBatch.draw(progress, 300f, 420f, tiempo,30);
         spriteBatch.end();
 
@@ -148,6 +184,30 @@ public class ObjectsScreen extends BaseScreen {
             return Color.BLUE;
         }
         return Color.GREEN;
+    }
+    public String getRandomText(){
+        int a = r.nextInt(3)+1;
+        if (a==1){
+            String text = "ROJO";
+            return text;
+        }
+        if(a==2){
+            String text = "AZUL";
+            return text;
+        }
+        String text = "VERDE";
+        return text;
+
+    }
+    public String getRandomAction(){
+        int a = r.nextInt(2)+1;
+        if (a==1){
+            String text = "T";
+            return text;
+        }
+        String text = "C";
+        return text;
+
     }
 
 }
