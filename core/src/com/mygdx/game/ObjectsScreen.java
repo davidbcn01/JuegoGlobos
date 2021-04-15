@@ -53,7 +53,7 @@ public class ObjectsScreen extends BaseScreen {
         bitmapFont2 = new BitmapFont();
         bitmapFont3 = new BitmapFont();
         clickColor = getRandomColor();
-        tiempo = 80;
+        tiempo = 60;
         clickTexto = getRandomText();
         accion = getRandomAction();
     }
@@ -133,6 +133,7 @@ public class ObjectsScreen extends BaseScreen {
             }
         }
         globoList.removeIf(globo -> globo.borrar);
+
         if(tiempo<=0){
             setScreen(new GameOverScreen(game));
         }
